@@ -21,7 +21,6 @@ class App extends Component {
         <Container>
           <Map />
         </Container>
-        <div id="map"></div>
       </div>
     );
   }
