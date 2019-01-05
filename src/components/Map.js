@@ -41,6 +41,10 @@ export default class Map extends Component {
             })
         })
 
+        map.on('click', 'points', (e) => {
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const {details, description, impact, duration} = e.deatures[0].properties;
+        })
         this.setState({map});
     }
 
