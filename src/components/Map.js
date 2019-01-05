@@ -25,6 +25,22 @@ export default class Map extends Component {
             ...this.state.viewport
 
         })
+
+        map.on('load', () => {
+            map.addLayer({
+                "id": "points",
+                "type": "circle",
+                "source": {
+                    "type": "geojson",
+                    "data": this.state.data
+                },
+                "paint": {
+                    "circle-radius": 5,
+                    "circle-color": "#B4D455"
+                }
+            })
+        })
+
         this.setState({map});
     }
 
