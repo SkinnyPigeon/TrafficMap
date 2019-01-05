@@ -26,7 +26,6 @@ export default class Map extends Component {
         })
 
         map.on('load', () => {
-            console.log(this.state.data);
             map.addLayer({
                 "id": "points",
                 "type": "circle",
@@ -42,10 +41,9 @@ export default class Map extends Component {
         })
 
         map.on('click', 'points', (e) => {
-            console.log(e)
             const coordinates = e.features[0].geometry.coordinates.slice();
             const {details, description, impact, duration} = e.features[0].properties;
-            while(Math.abs(e.lngLat.lng -coordinates[0]) > 180) {
+            while(Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] *= e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
 
