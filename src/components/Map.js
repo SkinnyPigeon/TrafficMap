@@ -73,7 +73,7 @@ export default class Map extends Component {
 
     render(){
         return (
-            <div style={{width: 1100, height: 600}} id="map" />
+            <div style={{width: 1100, height: 600, margin: "auto"}} id="map" />
         );
     }
 }

@@ -20,7 +20,7 @@ class Home extends Component {
   }
 
   render() {
-    const { data } = this.props.API;
+    const {data} = this.props.API;
     const count =  data && data.features.length;
     return (
       <div>
