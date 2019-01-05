@@ -6,22 +6,20 @@ export default class Map extends Component {
         super(props);
 
         this.state = {
-            api_url: 'https://data.edmonton.ca/resource/ju4q-wijd.json',
             map: false,
             viewport: {
                 zoom: 10,
                 center: [-113.4909, 53.5444]
             },
-            data: null
         } 
     }
 
-    static initialzeMap(state) {
+    static initialzeMap(state, viewport) {
         MapBoxGL.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
         let map = new MapBoxGL.Map({
             container: "map",
             style: 'mapbox://styles/skinnypigeon/cjqjcvf4e1gic2rki8a8r8v5x',
-            ...state.viewport
+            ...viewport
         })
 
         map.on('load', () => {
@@ -68,46 +66,9 @@ export default class Map extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        const {map, data} = prevState;
-        if(data && !map) return Map.initialzeMap(prevState)
+        const {map, data} = nextProps;
+        if(data && !map) return Map.initialzeMap(nextProps, prevState.viewport)
         else return null;
-    }
-
-    createFeatureCollection(data) {
-        let features = [];
-        data.forEach(point => {
-            features.push({
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [
-                        parseFloat(point.location.coordinates[0]),
-                        parseFloat(point.location.coordinates[1])
-                    ]
-                },
-                "properties": {
-                    "description": point.description,
-                    "details": point.details,
-                    "duration": point.duration,
-                    "impact": point.impact
-                }
-            });
-        })
-        return {
-            "type": "FeatureCollection",
-            "features": features
-        } 
-    }
-
-    componentDidMount() {
-        const {data, api_url} = this.state;
-
-        if(!data) {
-            fetch(api_url, {method: 'GET'})
-            .then(response => response.json())
-            .then(response => this.createFeatureCollection(response))
-            .then(response => this.setState({data: response}))
-        }
     }
 
     render(){
