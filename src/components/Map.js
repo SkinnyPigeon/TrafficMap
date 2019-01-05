@@ -7,6 +7,7 @@ export default class Map extends Component {
         super(props);
 
         this.state = {
+            api_url: 'https://data.edmonton.ca/resource/ju4q-wijd.json',
             viewport: {
                 width: 1100,
                 height: 600,
@@ -19,8 +20,21 @@ export default class Map extends Component {
                 {latitude: 53.5225, longitude: -113.6242},
                 {latitude: 53.5437, longitude: -113.4947},
                 {latitude: 53.5439, longitude: -113.4914},
-            ]
+            ],
+            data: null
         } 
+    }
+
+    componentDidMount() {
+        const {data, api_url} = this.state;
+
+        if(!data) {
+            fetch(api_url, {method: 'GET'})
+            .then(response => response.json())
+            .then(response => console.log(response));
+            // .then(response => this.setState({data: response}))
+            
+        }
     }
 
     render(){
@@ -30,8 +44,8 @@ export default class Map extends Component {
                 mapboxApiAccessToken = {process.env.REACT_APP_MAPBOX_TOKEN}
                 {...this.state.viewport}
                 onViewportChange={(viewport) => this.setState({viewport})}>
-                {coords.map(coord => (
-                    <Marker latitude={coord.latitude} longitude={coord.longitude}>
+                {coords.map((coord, i) => (
+                    <Marker key={i} latitude={coord.latitude} longitude={coord.longitude}>
                         <Pin />
                     </Marker>
                 ))}
