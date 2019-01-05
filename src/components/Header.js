@@ -28,7 +28,7 @@ class Header extends Component {
         return(
             <NavBar>
                 <StyledLogo src={logo} />
-                <StyledHeader>{count.toLocaleString()} Traffic Incidents</StyledHeader>
+                <StyledHeader>{count || 0} Traffic Disruptions</StyledHeader>
             </NavBar>
         );
     }
