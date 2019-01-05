@@ -16,13 +16,12 @@ export default class Map extends Component {
         } 
     }
 
-    initialzeMap() {
+    static initialzeMap(state) {
         MapBoxGL.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
         let map = new MapBoxGL.Map({
             container: "map",
             style: 'mapbox://styles/skinnypigeon/cjqjcvf4e1gic2rki8a8r8v5x',
-            ...this.state.viewport
-
+            ...state.viewport
         })
 
         map.on('load', () => {
@@ -31,10 +30,10 @@ export default class Map extends Component {
                 "type": "circle",
                 "source": {
                     "type": "geojson",
-                    "data": this.state.data
+                    "data": state.data
                 },
                 "paint": {
-                    "circle-radius": 5,
+                    "circle-radius": 7,
                     "circle-color": "#B4D455"
                 }
             })
@@ -57,7 +56,21 @@ export default class Map extends Component {
                 `)
                 .addTo(map);
         });
-        this.setState({map});
+
+        map.on('mouseenter', 'points', () => {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        map.on('mouseleave', 'points', () => {
+            map.getCanvas().style.cursor = '';
+        })
+        return{map};
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const {map, data} = prevState;
+        if(data && !map) return Map.initialzeMap(prevState)
+        else return null;
     }
 
     createFeatureCollection(data) {
@@ -98,8 +111,6 @@ export default class Map extends Component {
     }
 
     render(){
-        const {map, data} = this.state;
-        if(data && !map) this.initialzeMap();
         return (
             <div style={{width: 1100, height: 600}} id="map" />
         );
