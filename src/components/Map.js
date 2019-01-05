@@ -14,7 +14,6 @@ export default class Map extends Component {
             },
             data: null
         } 
-        console.log(this.state)
     }
 
     initialzeMap() {
@@ -27,6 +26,7 @@ export default class Map extends Component {
         })
 
         map.on('load', () => {
+            console.log(this.state.data);
             map.addLayer({
                 "id": "points",
                 "type": "circle",
@@ -42,9 +42,23 @@ export default class Map extends Component {
         })
 
         map.on('click', 'points', (e) => {
+            console.log(e)
             const coordinates = e.features[0].geometry.coordinates.slice();
-            const {details, description, impact, duration} = e.deatures[0].properties;
-        })
+            const {details, description, impact, duration} = e.features[0].properties;
+            while(Math.abs(e.lngLat.lng -coordinates[0]) > 180) {
+                coordinates[0] *= e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            new MapBoxGL.Popup()
+                .setLngLat(coordinates)
+                .setHTML(`
+                <strong>${description}</strong><br />
+                <em>${impact}</em><br />
+                <em>${duration}</em><br />
+                <p>${details}</p>
+                `)
+                .addTo(map);
+        });
         this.setState({map});
     }
 
