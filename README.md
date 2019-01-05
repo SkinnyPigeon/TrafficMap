@@ -1,3 +1,3 @@
 # TrafficMap
 
-A traffic disrption map build with ReactJS and Mapbox GL JS
+A traffic disruption map build with ReactJS and Mapbox GL JS
