@@ -14,7 +14,6 @@ export default class Map extends Component {
                 zoom: 10,
                 latitude: 53.5444,
                 longitude: -113.4909,
-                pixelRatio: 3
             },
             data: null
         } 
