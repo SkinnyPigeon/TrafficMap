@@ -16,11 +16,6 @@ export default class Map extends Component {
                 longitude: -113.4909,
                 pixelRatio: 3
             },
-            coords: [
-                {latitude: 53.5225, longitude: -113.6242},
-                {latitude: 53.5437, longitude: -113.4947},
-                {latitude: 53.5439, longitude: -113.4914},
-            ],
             data: null
         } 
     }
@@ -31,21 +26,22 @@ export default class Map extends Component {
         if(!data) {
             fetch(api_url, {method: 'GET'})
             .then(response => response.json())
-            .then(response => console.log(response));
-            // .then(response => this.setState({data: response}))
-            
+            .then(response => this.setState({data: response}))
         }
     }
 
     render(){
-        const {coords} = this.state;
+        const {data} = this.state;
         return (
             <MapGL
                 mapboxApiAccessToken = {process.env.REACT_APP_MAPBOX_TOKEN}
                 {...this.state.viewport}
                 onViewportChange={(viewport) => this.setState({viewport})}>
-                {coords.map((coord, i) => (
-                    <Marker key={i} latitude={coord.latitude} longitude={coord.longitude}>
+                {data && data.map((coord, i) => (
+                    <Marker 
+                        key={i} 
+                        latitude={coord.location.coordinates[1]} 
+                        longitude={coord.location.coordinates[0]}>
                         <Pin />
                     </Marker>
                 ))}
