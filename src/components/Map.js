@@ -10,7 +10,7 @@ export default class Map extends Component {
             viewport: {
                 zoom: 10,
                 center: [-113.4909, 53.5444]
-            },
+            }
         } 
     }
 

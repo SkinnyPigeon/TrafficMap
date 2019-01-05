@@ -4,7 +4,6 @@ import Map from './components/Map';
 import Header from './components/Header'
 
 import './App.css';
-require('dotenv').config();
 
 class App extends Component {
   constructor(props) {
