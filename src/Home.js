@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Container} from 'reactstrap';
 import Map from './components/Map';
-import Header from './components/Header'
+import Header from './components/Header';
 
 import './App.css';
 
